@@ -18,6 +18,12 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "graphql": "^15.5.1"
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "finnhub": "^1.2.6",
+    "google-finance": "^0.1.12",
+    "graphql": "^15.5.1",
+    "yahoo-finance": "^0.3.7",
+    "yahoo-finance2": "^1.14.4"
   }
 }

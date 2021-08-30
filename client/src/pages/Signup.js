@@ -4,7 +4,7 @@ import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, FormHelperText, Input, InputLabel, Button, Box, TextField, Typography } from '@material-ui/core';
+import { FormControl, FormHelperText, Input, InputLabel, Button, ButtonGroup, TextField, Typography } from '@material-ui/core';
 
 function Signup(props) {
   const [formState, setFormState] = useState({ email: '', password: '' });
@@ -36,17 +36,17 @@ function Signup(props) {
     root: {
       '& > *': {      
         marginLeft: '100px',
-        margin: theme.spacing(4),
+        margin: theme.spacing(3),
         width: '50ch',
       },
     },
     heading: {
       flexGrow: 1,
       fontFamily: 'Helvetica',
-      marginTop: '150px'
+      marginTop: '200px'
     },
-    btnElement: {
-      width: 300,
+    btn: {
+      marginRight: '15px',
     }
   }));
 
@@ -96,8 +96,9 @@ function Signup(props) {
       </div>
       ) : null
     }
-    <Box className={classes.btnElement}>
+    <ButtonGroup>
       <Button variant="contained" color="primary"
+        className={classes.btn}
         type="submit"
       >
         Submit
@@ -105,7 +106,7 @@ function Signup(props) {
       <Button fullWidth="true" variant="contained" href="/login">
         ← Go to Login
       </Button>
-    </Box>
+    </ButtonGroup>
   </form>
   );
 }

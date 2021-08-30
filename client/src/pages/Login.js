@@ -4,7 +4,7 @@ import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl, FormHelperText, Input, InputLabel, Button, Box, TextField, Typography } from '@material-ui/core';
+import { FormControl, FormHelperText, Input, InputLabel, Button, TextField, Typography, ButtonGroup } from '@material-ui/core';
 
 function Login(props) {
   console.log("Login ya");
@@ -36,17 +36,17 @@ function Login(props) {
     root: {
       '& > *': {      
         marginLeft: '100px',
-        margin: theme.spacing(4),
+        margin: theme.spacing(3),
         width: '50ch',
       },
     },
     heading: {
       flexGrow: 1,
       fontFamily: 'Helvetica',
-      marginTop: '150px'
+      marginTop: '200px'
     },
-    btnElement: {
-      width: 300,
+    btn: {
+      marginRight: '15px'
     }
   }));
 
@@ -81,16 +81,17 @@ function Login(props) {
         </div>
         ) : null
       }
-      <Box className={classes.btnElement}>
+      <ButtonGroup>
         <Button variant="contained" color="primary"
           type="submit"
+          className={classes.btn}
         >
           Submit
         </Button>
         <Button fullWidth="true" variant="contained" href="/signup">
           ← Go to Signup
         </Button>
-      </Box>
+      </ButtonGroup>
     </form>
   );
 }

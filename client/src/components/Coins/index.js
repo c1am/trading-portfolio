@@ -1,24 +1,21 @@
 import getPrice from '../../utils/cryptoapi';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 
 function Coins() {
-  let coins = [];
-  getPrice().then(function(data) {
-    data.map((item) => {
-      // console.log(item);
-      coins.push(item);
-    }
-    // console.log(data);
-  )});
-  console.log("coins", coins);
-  console.log(Object.keys(coins));
-  coins.forEach(item => console.log(item));
+  var coins = [];
 
-  // const test = ['a','b','c'];
-  // test.push('d');
-  // console.log(test);
+  // function sleep(ms) {
+  //   return new Promise(resolve => setTimeout(resolve, ms));
+  // }
 
+  // getPrice().then(function(data) {
+  //   data.map((item) => {
+  //     coins.push(item);
+  //   });
+  // });
+
+  // coins = getPrice();
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {      
@@ -65,6 +62,8 @@ function Coins() {
     createData('Gingerbread', 356, 16.0, 49, 3.9),
   ];
 
+  // console.log("coins", coins);
+  // coins.map((coin) => { console.log(coin); });
   return (
     <TableContainer>
       <Typography variant="h4" color="textSecondary" className={classes.heading}>

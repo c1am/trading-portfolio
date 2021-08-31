@@ -5,9 +5,13 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
+import Chart from "../components/Chart";
 
 
 const Portfolio = () => {
+
+    let transactions = [25, 30, 40, 10, 40];
+    let myChart;
 
     const { loading, data } = useQuery(QUERY_USER);
     console.log(useQuery(QUERY_USER));
@@ -36,7 +40,7 @@ const Portfolio = () => {
             <Avatar></Avatar>
             <h1>
             <span role="img" aria-label="Face With Rolling Eyes Emoji">
-                🙄
+            <Chart props={transactions}> </Chart> 
             </span>
             </h1>
         </Jumbotron>

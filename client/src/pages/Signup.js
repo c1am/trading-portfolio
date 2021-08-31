@@ -43,6 +43,7 @@ function Signup(props) {
     heading: {
       flexGrow: 1,
       fontFamily: 'Helvetica',
+      fontWeight: 'bold',
       marginTop: '200px'
     },
     btn: {

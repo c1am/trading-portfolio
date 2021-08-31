@@ -19,7 +19,7 @@ function Nav() {
         </Typography>
       );
     } else {
-      console.log('Not logged in');
+      // console.log('Not logged in');
       return (
         <Typography className={classes.navButton}>
           <Link className={classes.navButton} color="inherit" href="/signup">Signup</Link>

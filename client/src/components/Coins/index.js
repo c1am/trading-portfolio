@@ -1,21 +1,31 @@
-import getPrice from '../../utils/cryptoapi';
+import { getPrice } from '../../utils/cryptoapi';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup } from '@material-ui/core';
 
 function Coins() {
-  var coins = [];
+  const [coins, setCoins] = useState([]);
+  const [fetchData, setFetchData] = useState(false);
 
-  // function sleep(ms) {
-  //   return new Promise(resolve => setTimeout(resolve, ms));
-  // }
+  getPrice()
+    .then((data) => { 
+      if (fetchData === false) {
+        setCoins(data);
+        setFetchData(true);
+      }
+      // return data; 
+    })
+    .then((data) => { console.log(data);})
+    .catch((error) =>{
+      console.log(error);
+    })
 
-  // getPrice().then(function(data) {
-  //   data.map((item) => {
-  //     coins.push(item);
-  //   });
-  // });
+  useEffect(() => {
+     return setFetchData(false);
+  }, []);
 
-  // coins = getPrice();
+  // setCoins(coinData);
+  console.log(coins);
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {      
@@ -28,9 +38,22 @@ function Coins() {
       minWidth: 650,
     },
     heading: {
-      flexGrow: 1,
       fontFamily: 'Helvetica',
-      marginTop: '150px'
+      fontWeight: 'bold',
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '200px',
+      marginBottom: '50px'
+    },
+    th: {
+      fontSize: '1.5rem',
+      fontFamily: 'Helvetica',
+      fontWeight: 'bold',
+      color: '#00796b'
+    },
+    td: {
+      fontSize: '1.25rem',
+      verticalAlign: 'top'
     },
     btnElement: {
       width: 300,
@@ -39,31 +62,6 @@ function Coins() {
 
   const classes = useStyles();
 
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-
-  // cryptos[i] = {
-  //   name: coinName,
-  //   symbol: coinSymbol,
-  //   price: currentPrice,
-  //   priceChange24h: priceChange24h,
-  //   imageUrl: imageUrl,
-  //   color: priceChangeColor,
-  //   graphNo: graphNo,
-  //   coinUrl: coinUrl
-  // }
-
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-
-  // console.log("coins", coins);
-  // coins.map((coin) => { console.log(coin); });
   return (
     <TableContainer>
       <Typography variant="h4" color="textSecondary" className={classes.heading}>
@@ -72,23 +70,33 @@ function Coins() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Price&nbsp;</TableCell>
-            <TableCell align="right">Price Change % (24h)&nbsp;</TableCell>
-            <TableCell align="right">7 day Trend&nbsp;</TableCell>
+            <TableCell align="left"  color="textSecondary" className={classes.th}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name</TableCell>
+            <TableCell align="right" className={classes.th}>Price&nbsp;</TableCell>
+            <TableCell align="right" className={classes.th}>Price Change % (24h)&nbsp;</TableCell>
+            <TableCell align="right" className={classes.th}>7 day Trend&nbsp;</TableCell>
+            <TableCell align="center" className={classes.th}>Action&nbsp;</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
+          {coins.map((coin) => (
+            <TableRow>
+              <TableCell className={classes.td}><a href={coin.coinUrl} target="_blank"><img src={coin.imageUrl} width="10%"/> {coin.name}</a></TableCell>
+              <TableCell  className={classes.td} align="right">${coin.price.toLocaleString('en-US',{minimumFractionDigits: 2, maximumFractionDigits: 2})}</TableCell>
+              <TableCell className={classes.td} align="right"><font color={coin.color}>{coin.priceChange24h.toLocaleString('en-US',{minimumFractionDigits: 3, maximumFractionDigits: 3})}</font></TableCell>
+              <TableCell className={classes.td}><a href={coin.coinUrl} target="_blank"><img class="" src={"https://www.coingecko.com/coins/" + coin.itemNo + "/sparkline"} srcset= {"https://www.coingecko.com/coins/" + coin.graphNo + "/sparkline 1x"} /></a></TableCell>
+              <TableCell className={classes.td}>
+              <ButtonGroup>
+                <Button variant="contained" color="primary"
+                  href="/profile/sell"
+                  className={classes.btn}
+                >
+                  Buy
+                </Button>
+                <Button fullWidth="true" variant="contained" href="/profile/buy">
+                  Sell
+                </Button> 
+              </ButtonGroup>
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
           ))}
         </TableBody>

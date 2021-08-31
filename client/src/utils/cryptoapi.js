@@ -1,5 +1,5 @@
 // Call cryptocurrency API price
-export default async function getPrice() {
+export async function getPrice() {
   var api_url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false'
   const response = await fetch(api_url);
   const apiData = await response.json();
@@ -33,20 +33,11 @@ export default async function getPrice() {
       imageUrl: imageUrl,
       color: priceChangeColor,
       graphNo: graphNo,
+      itemNo: i,
       coinUrl: coinUrl
     }
 
-    // Create new row for every new cryptocurrency on Top 10 list
-    // createRow.innerHTML += `
-    // <tr>
-    //   <td><img src=${imageUrl} width=5%>   <a href=${coinUrl} target=_blank>${coinName} (${coinSymbol})</a></td>
-    //   <td align=right><b>$ ${currentPrice.toLocaleString('en-US',{minimumFractionDigits: 2, maximumFractionDigits: 2})}</b></td>
-    //   <td align=right><font color=${priceChangeBGColor}>${priceChange24h.toLocaleString('en-US',{minimumFractionDigits: 3, maximumFractionDigits: 3})} % </td>
-    //   <td><a href=${coinUrl} target=_blank><img class="" alt="bitcoin (BTC) 7d chart" data-src="https://www.coingecko.com/coins/${graphNo}/sparkline" data-srcset="https://www.coingecko.com/coins/${graphNo}/sparkline 1x" src="https://www.coingecko.com/coins/${i}/sparkline" srcset="https://www.coingecko.com/coins/${graphNo}/sparkline 1x"></a></td>
-    // </tr>`;
   }
   return cryptos;
 }
 
-// getPrice();
-// document.addEventListener("load", getPrice);

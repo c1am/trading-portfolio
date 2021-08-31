@@ -7,13 +7,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, FormHelperText, Input, InputLabel, Button, ButtonGroup, TextField, Typography } from '@material-ui/core';
 
 function Signup(props) {
-  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', password: '' });
   const [addUser, { error }] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const mutationResponse = await addUser({
-      variables: {
+    variables: {
         email: formState.email,
         password: formState.password,
         firstName: formState.firstName,
@@ -63,6 +63,7 @@ function Signup(props) {
       <Input id="firstName" 
         name="firstName"
         placeholder="First Name"
+        value={formState.firstName}
         onChange={handleChange}/>
     </FormControl>
     <FormControl >
@@ -70,6 +71,7 @@ function Signup(props) {
       <Input id="lastName" 
         name="lastName"
         placeholder="Last Name"
+        value={formState.lastName}
         onChange={handleChange}/>
     </FormControl>
 
@@ -78,6 +80,7 @@ function Signup(props) {
       <Input id="email" aria-describedby="email-helper-text" 
         name="email"
         placeholder="youremail@test.com"
+        value={formState.email}
         onChange={handleChange}/>
       <FormHelperText id="email-helper-text">We'll never share your email.</FormHelperText>
     </FormControl>
@@ -88,6 +91,7 @@ function Signup(props) {
         type="password"
         id="pwd"
         label="Password"
+        value={formState.password}
         onChange={handleChange}
       />
     </FormControl>

@@ -8,3 +8,18 @@ export const QUERY_STOCKS = gql`
     }
   }
 `;
+
+export const QUERY_USER = gql` 
+    query user {
+        user{
+            _id
+           firstName
+           lastName
+           email
+           stocks {
+               name
+           }
+        }
+    }
+
+`;

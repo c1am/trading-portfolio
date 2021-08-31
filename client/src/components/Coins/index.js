@@ -94,7 +94,7 @@ function Coins() {
                 </Button>
                 <Button fullWidth="true" variant="contained" href="/profile/buy">
                   Sell
-                </Button>
+                </Button> 
               </ButtonGroup>
               </TableCell>
             </TableRow>

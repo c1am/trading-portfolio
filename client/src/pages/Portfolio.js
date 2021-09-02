@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Jumbotron from "../components/Jumbotron";
 import { Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,8 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 import PieChart from "../components/PieChart";
+import LineChart from "../components/LineChart";
 import { getHistory } from "../utils/cryptoapi";
-
 
 const Portfolio = () => {
 
@@ -20,11 +21,11 @@ const Portfolio = () => {
     { name: "XRP", value: 189 }
   ];
 
-    let myChart;
-
     const { loading, data } = useQuery(QUERY_USER);
 
     const userData = data?.user || {};
+
+    console.log(coinData);
 
     const useStyles = makeStyles({
         root: {
@@ -56,25 +57,37 @@ const Portfolio = () => {
     }
 
 
-    const renderLineChart = () => {
-      const historyData = [];
-      //coinData.map((coin) => (historyData.push(getHistory(coin.name.toLowerCase().replace(/\s/g,'')))));
-      console.log(coinData.map((coin) => (historyData.push(getHistory(coin.name.toLowerCase().replace(/\s/g,''))))));
-      if (coinData.length !== 0){
-        return <h1>
-          <span>
-            <PieChart data={coinData}> </PieChart> 
-          </span>
+    function renderLineChart (coinName) {
+      
+      // coinData.map((coin) => (getHistory(coin.name.toLowerCase().replace(/\s/g,''))
+      // .then((data) => {
+      //   const historyData = [];
+      //   historyData.push(data);
+      //   console.log(data);
+      //   return <h1>
+      //     <span>
+      //       <LineChart data={historyData}> </LineChart> 
+      //     </span>
           
-        </h1>;
-      }
-      else {
-        return <h1>
-          <span>
-            No coins have been purchased :(
-          </span>
-        </h1>;
-      }
+      //   </h1>;
+      // })));
+      console.log(coinName);
+      return <LineChart name={coinName}></LineChart>;
+      //const historyData = [];
+      //historyData.push(getHistory(coin.name.toLowerCase().replace(/\s/g,'')));
+      // console.log(historyData);
+
+      
+      // if (coinData.length !== 0){
+        
+      // }
+      // else {
+      //   return <h1>
+      //     <span>
+      //       No coins have been purchased :(
+      //     </span>
+      //   </h1>;
+      // }
     }
       
     const classes = useStyles();
@@ -82,16 +95,13 @@ const Portfolio = () => {
     return (
       
         <div>
-        <script src="https://widgets.coingecko.com/coingecko-coin-compare-chart-widget.js"></script>
-        <coingecko-coin-compare-chart-widget coin-ids={coinData.map((coin) => coin.name + ",")} locale="en"></coingecko-coin-compare-chart-widget>
-          
         <Jumbotron>
             
             <h1>{userData.firstName}'s Portfolio</h1>
             <Avatar className={classes.root}></Avatar>
-            {renderPieChart()}
-            {renderLineChart()}
             {coinData.map((coin) => (<p>{coin.name} : {coin.value} coin(s)</p>))}
+            {renderPieChart()}
+            {coinData.map((coin) => (renderLineChart(coin.name)))}
             
             
         </Jumbotron>

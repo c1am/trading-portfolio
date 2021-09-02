@@ -45,7 +45,6 @@ export async function getHistory(name){
   var api_url = `https://api.coingecko.com/api/v3/coins/${name}/market_chart?vs_currency=usd&days=14`
   const response = await fetch(api_url);
   const apiData = await response.json();
-  console.log(apiData);
   return apiData;
 }
 

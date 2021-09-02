@@ -1,16 +1,16 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Stock } = require('../models');
+const { User, Coin } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
-    stocks: async () => {
-      return await Stock.find();
+    coins: async () => {
+      return await Coin.find();
     },
     user: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate('stocks');
+        const user = await User.findById(context.user._id).populate('coins');
         return user;
       }
       throw new AuthenticationError('Not logged in');
@@ -46,7 +46,7 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    }
+    },
   }
 };
 

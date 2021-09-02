@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_STOCKS = gql`
+export const QUERY_COINS = gql`
   {
-    stocks {
+    coins {
       _id
       name
     }
@@ -16,8 +16,8 @@ export const QUERY_USER = gql`
            firstName
            lastName
            email
-           stocks {
-               name
+           coins {
+              name
            }
         }
     }

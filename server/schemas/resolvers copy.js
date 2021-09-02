@@ -19,7 +19,11 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    }, 
+    },
+    updateCoins: async (parent, [coins] ) => {
+      await Coin.deleteMany();
+      return await Coin.insertMany(coins);
+    },
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, { new: true });

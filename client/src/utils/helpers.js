@@ -7,11 +7,11 @@ export function pluralize(name, count) {
 
 export function idbPromise(storeName, method, object) {
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('stock', 1);
+    const request = window.indexedDB.open('coins', 1);
     let db, tx, store;
     request.onupgradeneeded = function(e) {
       const db = request.result;
-      db.createObjectStore('stocks', { keyPath: '_id' });
+      db.createObjectStore('coins', { keyPath: 'symbol' });
     };
 
     request.onerror = function(e) {
@@ -40,6 +40,12 @@ export function idbPromise(storeName, method, object) {
           break;
         case 'delete':
           store.delete(object._id);
+          break;
+        case 'deleteAll':
+          const allrec = store.clear();
+          allrec.onsuccess = function() {
+            resolve(allrec.result);
+          };
           break;
         default:
           console.log('No valid method');

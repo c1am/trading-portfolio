@@ -14,9 +14,10 @@ const Portfolio = () => {
     let myChart;
 
     const { loading, data } = useQuery(QUERY_USER);
-    console.log(useQuery(QUERY_USER));
+    // console.log(useQuery(QUERY_USER));
 
     const userData = data?.user || {};
+    console.log(userData);
 
     const useStyles = makeStyles({
         root: {

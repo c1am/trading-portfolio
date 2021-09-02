@@ -32,3 +32,28 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const UPDATE_COIN = gql`
+  mutation updateCoin(
+    $symbol: String!
+    $price: Float
+    ) {
+    updateCoin (
+      symbol: $symbol
+      price: $price
+    )
+  }
+`;
+
+// export const UPDATE_COINS = gql`
+//   mutation updateCoins(
+//     $input: [coins]
+//   ) {
+//     updateCoins(
+//       input: $input
+//     ) {
+//       symbol: String
+//       price: Float
+//     }
+//   }
+// `;

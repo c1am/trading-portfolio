@@ -41,3 +41,10 @@ export async function getPrice() {
   return cryptos;
 }
 
+export async function getHistory(name){
+  var api_url = `https://api.coingecko.com/api/v3/coins/${name}/market_chart?vs_currency=usd&days=14`
+  const response = await fetch(api_url);
+  const apiData = await response.json();
+  return apiData;
+}
+

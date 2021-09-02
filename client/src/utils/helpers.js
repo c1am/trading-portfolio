@@ -7,11 +7,11 @@ export function pluralize(name, count) {
 
 export function idbPromise(storeName, method, object) {
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('stock', 1);
+    const request = window.indexedDB.open('coin', 1);
     let db, tx, store;
     request.onupgradeneeded = function(e) {
       const db = request.result;
-      db.createObjectStore('stocks', { keyPath: '_id' });
+      db.createObjectStore('coins', { keyPath: '_id' });
     };
 
     request.onerror = function(e) {

@@ -1,1 +1,1 @@
-export const UPDATE_STOCK = "UPDATE_STOCK";
+export const UPDATE_COIN = "UPDATE_COIN";

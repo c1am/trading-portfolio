@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup, TextField } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup, Link } from '@material-ui/core';
 // import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
 
 import { idbPromise } from '../../utils/helpers'
+import Buy from '../../pages/Buy'
 
-function BuySell() {
+function BuySell(props) {
   const [coins, setCoins] = useState([]);
   const [fetchData, setFetchData] = useState(false);
-  // const [open, setOpen] = useState(false);
+
+  const [coinSymbol, setCoinSymbol] = useState('');
+  const [coinName, setCoinName] = useState('');
+  const [coinPrice, setCoinPrice] = useState(0);
+  const [showBuyForm, setShowBuyForm] = useState(false);
 
   idbPromise('coins', 'get')
   .then((data) => { 
@@ -16,7 +21,6 @@ function BuySell() {
       setCoins(data);
       setFetchData(true);
     }
-    // return data; 
   })
   .then((data) => { console.log(data);})
   .catch((error) =>{
@@ -61,16 +65,18 @@ function BuySell() {
       fontSize: '1.25rem',
       verticalAlign: 'top'
     },
-    btnElement: {
-      width: 300,
+    btn: {
+      marginRight: '15px'
     }
   }));
 
   const classes = useStyles();
 
-  // function handleClickOpen(name, price) {
-  //   setOpen({open: true, name: name, price: price});
-  // };
+  function handleClick(coin) {
+    // console.log(event.target.parentElement.parentElement);
+    setShowBuyForm(state => !state);
+    setCoinSymbol(coin.symbol);
+  };
 
   // const handleClose = () => {
   //   setOpen(false);
@@ -81,6 +87,9 @@ function BuySell() {
       <Typography variant="h4" color="textSecondary" className={classes.heading}>
         Trade Crypto Currencies
       </Typography>
+      {showBuyForm ? 
+        <Buy coinSymbol={coinSymbol} /> : <></>        
+      }
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -99,12 +108,26 @@ function BuySell() {
               <TableCell className={classes.td} align="right">
               <ButtonGroup>
                 <Button variant="contained" color="primary"
-                  href="/trade/buy"
+                  // href={`/trade/buy/${coin}/$`}
                   className={classes.btn}
-                  // onClick={handleClickOpen}
+                  // to={{data: {symbol:coin.symbol, name:coin.name, price:coin.price}}}
+                  onClick={() => handleClick(coin)}
+                  // component={Link}
+                  // to="/trade/buy"
                 >
                   Buy
                 </Button>
+                {/* <Link variant="outlined" color="primary"
+                  className={classes.btn} 
+                  component="button"
+                  href="/trade/buy"
+                  to={{pathname: "/trade/buy",
+                      data: coin
+                  }}
+                  // onClick={handleClickOpen}
+                >
+                  Buy
+                </Link> */}
                 <Button fullWidth="true" variant="contained"
                 //  href="/trade/sell"
                  >
@@ -116,29 +139,6 @@ function BuySell() {
           ))}
         </TableBody>
       </Table>
-      {/* <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Buy </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Buy , Price 
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="qty"
-            label="Quantity"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Proceed
-          </Button>
-        </DialogActions>
-      </Dialog> */}
     </TableContainer>
   );
 }

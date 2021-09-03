@@ -6,6 +6,7 @@ export const LOGIN = gql`
       token
       user {
         _id
+        firstName
       }
     }
   }
@@ -33,27 +34,32 @@ export const ADD_USER = gql`
   }
 `;
 
-export const UPDATE_COIN = gql`
-  mutation updateCoin(
+export const BUY_COINS = gql`
+  mutation buyCoins(
     $symbol: String!
-    $price: Float
+    $name: String!
+    $price: Float!
+    $qty: Int!
+    $date: Date!
+    $user: ID!
     ) {
-    updateCoin (
+      buyCoins (
       symbol: $symbol
+      name: $name
       price: $price
-    )
+      qty: $qty
+      date: $date
+      user: $user
+    ) {
+        _id
+        symbol
+        name
+        price
+        qty
+        date
+        user {
+          _id
+        }
+    }
   }
 `;
-
-// export const UPDATE_COINS = gql`
-//   mutation updateCoins(
-//     $input: [coins]
-//   ) {
-//     updateCoins(
-//       input: $input
-//     ) {
-//       symbol: String
-//       price: Float
-//     }
-//   }
-// `;

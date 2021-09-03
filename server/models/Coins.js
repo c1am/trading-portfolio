@@ -9,6 +9,11 @@ const coinSchema = new Schema({
     required: true,
     trim: true
   },
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
   price: {
     type: Number,
     required: true,

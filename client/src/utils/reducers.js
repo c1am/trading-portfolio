@@ -1,17 +1,17 @@
 import {
-  UPDATE_COIN
+  UPDATE_COINS
 } from "./actions";
 
 const initialState = {
-  stocks: []
+  coins: []
 };
 
 export const reducers = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_COIN:
+    case UPDATE_COINS:
       return {
         ...state,
-        stocks: [...action.stocks],
+        coins: [...action.coins],
       };
 
     default:

@@ -3,12 +3,13 @@ const { gql } = require('apollo-server-express');
 const typeDefs = gql`
   scalar Date
   type Coin {
-    _id: ID
-    symbol: String
-    price: Float
+    _id: ID!
+    symbol: String!
+    name: String!
+    price: Float!
     qty: Int
-    date: Date
-    user: User
+    date: Date!
+    user: User!
   }
 
   type User {
@@ -16,7 +17,6 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     email: String
-    coins: [Coin]
   }
 
   type Auth {
@@ -26,13 +26,14 @@ const typeDefs = gql`
 
   type Query {
     user: User
+    coins: Coin
   }
 
   type Mutation {
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     login(email: String!, password: String!): Auth
-    addCoins(symbol: String, price: Float, qty: Int, date: Date, user: ID ): Coin
+    buyCoins(symbol: String, name: String, price: Float, qty: Int, date: Date, user: ID): Coin
   }
 `;
 

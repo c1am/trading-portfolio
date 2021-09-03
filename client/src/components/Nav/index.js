@@ -7,13 +7,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Auth from '../../utils/auth';
-// import { Link } from 'react-router-dom';
 
 function Nav() {
   function showNavigation() {
     if (Auth.loggedIn()) {
       return (
         <Typography className={classes.navButton}>
+          <Link className={classes.navButton} color="inherit" href="/trade">Trade</Link>
           <Link className={classes.navButton} color="inherit" href="/portfolio">My Portfolio</Link>
           <Link color="inherit" href="/" onClick={() => Auth.logout()}>Logout</Link>
         </Typography>

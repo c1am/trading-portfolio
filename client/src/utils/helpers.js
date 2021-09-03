@@ -7,11 +7,11 @@ export function pluralize(name, count) {
 
 export function idbPromise(storeName, method, object) {
   return new Promise((resolve, reject) => {
-    const request = window.indexedDB.open('coin', 1);
+    const request = window.indexedDB.open('coins', 1);
     let db, tx, store;
     request.onupgradeneeded = function(e) {
       const db = request.result;
-      db.createObjectStore('coins', { keyPath: '_id' });
+      db.createObjectStore('coins', { keyPath: 'symbol' });
     };
 
     request.onerror = function(e) {
@@ -41,6 +41,12 @@ export function idbPromise(storeName, method, object) {
         case 'delete':
           store.delete(object._id);
           break;
+        case 'deleteAll':
+          const allrec = store.clear();
+          allrec.onsuccess = function() {
+            resolve(allrec.result);
+          };
+          break;
         default:
           console.log('No valid method');
           break;
@@ -51,4 +57,24 @@ export function idbPromise(storeName, method, object) {
       };
     };
   });
+}
+
+export function today() {
+  var today = new Date();
+  var dd = today.getDate();
+
+  var mm = today.getMonth()+1; 
+  var yyyy = today.getFullYear();
+  if(dd<10) 
+  {
+      dd='0'+dd;
+  } 
+
+  if(mm<10) 
+  {
+      mm='0'+mm;
+  } 
+  // today = mm+'/'+dd+'/'+yyyy;
+  today = yyyy+'-'+mm+'-'+dd;
+  return today;
 }

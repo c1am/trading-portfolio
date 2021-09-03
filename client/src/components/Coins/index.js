@@ -3,6 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup } from '@material-ui/core';
 
+// import { useDispatch, useSelector } from 'react-redux'
+// import { UPDATE_COIN } from '../../utils/mutations';
+import { idbPromise } from '../../utils/helpers'
+
 function Coins() {
   const [coins, setCoins] = useState([]);
   const [fetchData, setFetchData] = useState(false);
@@ -15,7 +19,7 @@ function Coins() {
       }
       // return data; 
     })
-    .then((data) => { console.log(data);})
+    // .then((data) => { console.log(data);})
     .catch((error) =>{
       console.log(error);
     })
@@ -23,9 +27,20 @@ function Coins() {
   useEffect(() => {
      return setFetchData(false);
   }, []);
+ 
+  idbPromise('coins', 'deleteAll')
+  .then((data) => {
+    coins.map((coin) => {
+      var item = {
+        symbol: coin.symbol,
+        name: coin.name,
+        price: coin.price
+      };
+      console.log(item);
+      idbPromise('coins', 'put', item);
+    });
+  })
 
-  // setCoins(coinData);
-  console.log(coins);
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {      
@@ -79,11 +94,11 @@ function Coins() {
         </TableHead>
         <TableBody>
           {coins.map((coin) => (
-            <TableRow>
+            <TableRow key={coin.symbol}>
               <TableCell className={classes.td}><a href={coin.coinUrl} target="_blank"><img src={coin.imageUrl} width="10%"/> {coin.name}</a></TableCell>
               <TableCell  className={classes.td} align="right">${coin.price.toLocaleString('en-US',{minimumFractionDigits: 2, maximumFractionDigits: 2})}</TableCell>
               <TableCell className={classes.td} align="right"><font color={coin.color}>{coin.priceChange24h.toLocaleString('en-US',{minimumFractionDigits: 3, maximumFractionDigits: 3})}</font></TableCell>
-              <TableCell className={classes.td}><a href={coin.coinUrl} target="_blank"><img class="" src={"https://www.coingecko.com/coins/" + coin.itemNo + "/sparkline"} srcset= {"https://www.coingecko.com/coins/" + coin.graphNo + "/sparkline 1x"} /></a></TableCell>
+              <TableCell className={classes.td}><a href={coin.coinUrl} target="_blank"><img src={"https://www.coingecko.com/coins/" + coin.itemNo + "/sparkline"} srcSet={"https://www.coingecko.com/coins/" + coin.graphNo + "/sparkline 1x"} /></a></TableCell>
               <TableCell className={classes.td}>
               <ButtonGroup>
                 <Button variant="contained" color="primary"

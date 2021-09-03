@@ -24,6 +24,7 @@ const Portfolio = () => {
     const { loading, data } = useQuery(QUERY_USER);
 
     const userData = data?.user || {};
+    console.log(userData);
 
     console.log(coinData);
 

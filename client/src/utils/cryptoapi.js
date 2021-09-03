@@ -9,12 +9,11 @@ export async function getPrice() {
 
   // Loop for top 10 cryptocurrencies
   for (let i=0;i<10;i++) {
-    var coinName = apiData[i].name;
+    var coinName = apiData[i].name.replace(' ', '-');
     var coinSymbol = apiData[i].symbol;
     var currentPrice = apiData[i].current_price;
     var priceChange24h = apiData[i].price_change_percentage_24h;
     var priceChangeColor = "";
-    // var createRow = document.getElementById("crypto").insertRow();
     var imageUrl = apiData[i].image;
     var graphNo = imageUrl.split('/')[5];
     var coinUrl = baseUrl + coinName.toLowerCase();

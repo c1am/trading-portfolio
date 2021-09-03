@@ -9,25 +9,19 @@ import { FormControl, Input, InputLabel, Button, Typography, ButtonGroup } from 
 
 function Buy(props) {
   console.log("Buy");
-  var coin = {};
-  // coin.symbol = "btc";
-  coin.name = "Bitcoin";
-  coin.price = 49688;
 
   const user = Auth.getProfile().data._id;
   console.log(user);
   const [buyCoins, { error }] = useMutation(BUY_COINS);
   const [formState, setFormState] = useState({ 
-    symbol: props.coinSymbol,
-    name: coin.name,
-    price: coin.price,
+    symbol: props.coinItem.symbol,
+    name: props.coinItem.name,
+    price: props.coinItem.price,
     qty: 0,
-    date: new Date(),
+    date: today(),
     total: 0,
     user: user
   });
-
-  console.log("coin", coin);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -39,7 +33,7 @@ function Buy(props) {
           name: formState.name, 
           price: formState.price,
           qty: parseInt(formState.qty),
-          date: formState.date,
+          date: new Date(),
           user: user
         },
       });
@@ -50,8 +44,7 @@ function Buy(props) {
   };
   const handleChange = (event) => {
     const { name, value } = event.target;
-    const total = value * coin.price;
-    // console.log(name, value, total);
+    const total = value * props.coinItem.price;
     setFormState({
       ...formState,
       [name]: value,

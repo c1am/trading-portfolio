@@ -20,6 +20,36 @@ const resolvers = {
       }
       throw new AuthenticationError('Not logged in');
     },
+    checkout: async (parent, args, context) => {
+      for (let i = 0; i < coins.length; i++) {
+        const coin = await stripe.coins.create({
+          name: coins[i].name,
+          description: coins[i].description,
+          images: [`${url}/images/${coins[i].image}`]
+        });
+
+        const price = await stripe.prices.create({
+          product: product.id,
+          unit_amount: products[i].price * 100,
+          currency: 'usd',
+        });
+
+        line_items.push({
+          price: price.id,
+          quantity: 1
+        });
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items,
+        mode: 'payment',
+        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`
+      });
+
+      return { session: session.id };
+    }
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -69,6 +99,11 @@ const resolvers = {
 
       return { token, user };
     },
+    updateProduct: async (parent, { _id, quantity }) => {
+      const decrement = Math.abs(quantity) * -1;
+
+      return await coin.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
+    }
   }
 };
 

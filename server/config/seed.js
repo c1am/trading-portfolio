@@ -1,23 +1,7 @@
 const db = require('./connection');
-const { User, Stock, Coin } = require('../models');
+const { User, Coin } = require('../models');
 
 db.once('open', async () => {
-  await Stock.deleteMany();
-
-  const stocks = await Stock.insertMany([
-    { name: 'AAPL' },
-    { name: 'AAL' },
-    { name: 'MSFT' },
-    { name: 'VZ' },
-    { name: 'TSLA' },
-    { name: 'MRNA' },
-    { name: 'FB' },
-    { name: 'JNJ' },
-    { name: 'GOOG' },
-    { name: 'AMZN' }
-  ]);
-
-  console.log('Stocks seeded');
 
   await Coin.deleteMany();
   await Coin.create({

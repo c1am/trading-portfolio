@@ -8,19 +8,32 @@ export default class LineChart extends Component {
 
   constructor(props){
       super(props);
+      this.state = {
+        data : null
+      };
+  }
+
+  componentDidMount(){
+    this.renderMyData();
+  }
+
+  renderMyData(){
+    console.log("render");
+    if(this.props.name  !== undefined){
+
+      getHistory((this.props.name).toLowerCase().replace(/\s/g,''))
+      .then((response) => {
+        this.setState({data: response.prices})
+      })
+      .catch((err) => console.log(err));
+    }
   }
 
   render() {
+    console.log(this.props.name)
+    console.log(this.state.data);
       if(this.props.name  !== undefined){
 
-        let portfolioData = [];
-        getHistory((this.props.name).toLowerCase().replace(/\s/g,''))
-        .then((data) => {
-            console.log(this.props.name);
-            console.log(data);
-            portfolioData.push(data);
-        });
-        console.log(portfolioData[0]);
         const options = {style: 'currency', currency: 'USD'};
         const numberFormat = new Intl.NumberFormat('en-US', options);
         const configPrice = {
@@ -98,13 +111,13 @@ export default class LineChart extends Component {
               type: 'all',
               text: 'All'
             }],
-            selected: 4
+            selected: 1
           },
           series: [{
             name: 'Price',
             type: 'spline',
       
-            data: priceData,
+            data: this.state.data,
             tooltip: {
               valueDecimals: 2
             },

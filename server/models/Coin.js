@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const stockSchema = new Schema({
+const coinSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -10,6 +10,6 @@ const stockSchema = new Schema({
   }
 });
 
-const Stock = mongoose.model('Stocks', stockSchema);
+const Coin = mongoose.model('Coins', coinSchema);
 
-module.exports = Stock;
+module.exports = Coin;

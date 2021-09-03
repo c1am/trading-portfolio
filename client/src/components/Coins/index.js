@@ -80,7 +80,7 @@ function Coins() {
   return (
     <TableContainer>
       <Typography variant="h4" color="textSecondary" className={classes.heading}>
-        Top 10 Crypto Currencies
+        Top 10 Crypto Currencies (by volume)
       </Typography>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>

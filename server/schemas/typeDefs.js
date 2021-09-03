@@ -17,6 +17,7 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     email: String
+    coins: [Coin]
   }
 
   type Auth {
@@ -30,7 +31,7 @@ const typeDefs = gql`
 
   type Query {
     user: User
-    coins: Coin
+    coins: [Coin]
     checkout(coins: [ID]!): Checkout
   }
 

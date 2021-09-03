@@ -1,45 +1,24 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import Jumbotron from "../components/Jumbotron";
-import { Avatar } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 
 import { useQuery, useMutation } from '@apollo/client';
-import { QUERY_USER } from '../utils/queries';
+import { QUERY_USER, QUERY_COINS } from '../utils/queries';
 import PieChart from "../components/PieChart";
 import LineChart from "../components/LineChart";
 import { getHistory } from "../utils/cryptoapi";
 
 const Portfolio = () => {
 
-  const coinData = [
-    { name: "Bitcoin", value: 400 },
-    { name: "Ethereum", value: 300 },
-    { name: "Cardano", value: 300 },
-    { name: "Binance Coin", value: 200 },
-    { name: "Tether", value: 278 },
-    { name: "XRP", value: 189 }
-  ];
+    const { data:user_data, loading: user_loading } = useQuery(QUERY_USER);
+    const { data:coin_data, error: coin_error, loading: coin_loading } = useQuery(QUERY_COINS);
 
-    const { loading, data } = useQuery(QUERY_USER);
-
-    const userData = data?.user || {};
+    const userData = user_data?.user || {};
+    const coinData = coin_data?.coins || [];
     console.log(userData);
+    coinData.map((coin) => console.log(coin.name));
 
-    console.log(coinData);
 
-    const useStyles = makeStyles({
-        root: {
-          background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-          border: 0,
-          borderRadius: 3,
-          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-          color: 'white',
-          height: 48,
-          padding: '0 30px',
-        },
-      });
-    
     const renderPieChart = () => {
       if (coinData.length !== 0){
         return <h1>
@@ -90,19 +69,21 @@ const Portfolio = () => {
       //   </h1>;
       // }
     }
-      
-    const classes = useStyles();
 
     return (
       
         <div>
         <Jumbotron>
-            
-            <h1>{userData.firstName}'s Portfolio</h1>
-            <Avatar className={classes.root}></Avatar>
-            {coinData.map((coin) => (<p>{coin.name} : {coin.value} coin(s)</p>))}
+
+          <Box justifyContent="center">
+
+          <h1>{userData.firstName}'s Portfolio</h1>
+             {coinData.map((coin) => (<p>{coin.name} : {coin.qty} coin(s)</p>))} 
             {renderPieChart()}
-            {coinData.map((coin) => (renderLineChart(coin.name)))}
+            {coinData.map((coin) => (renderLineChart(coin.name)))} 
+          </Box>
+            
+            
             
             
         </Jumbotron>

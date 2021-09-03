@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup, Link } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup, Link, Grid } from '@material-ui/core';
 // import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
 
 import { idbPromise } from '../../utils/helpers'
@@ -14,6 +14,7 @@ function BuySell(props) {
   const [coinName, setCoinName] = useState('');
   const [coinPrice, setCoinPrice] = useState(0);
   const [showBuyForm, setShowBuyForm] = useState(false);
+  const [coinItem, setCoinItem] = useState('');
 
   idbPromise('coins', 'get')
   .then((data) => { 
@@ -40,6 +41,7 @@ function BuySell(props) {
         marginLeft: '100px',
         margin: theme.spacing(4),
         width: '50ch',
+        flexGrow: 1,
       },
     },
     table: {
@@ -76,6 +78,10 @@ function BuySell(props) {
     // console.log(event.target.parentElement.parentElement);
     setShowBuyForm(state => !state);
     setCoinSymbol(coin.symbol);
+    setCoinName(coin.name);
+    setCoinPrice(coin.price);
+    setCoinPrice(coin.price);
+    setCoinItem(coin);
   };
 
   // const handleClose = () => {
@@ -83,63 +89,67 @@ function BuySell(props) {
   // };
 
   return (
-    <TableContainer className={classes.table} >
-      <Typography variant="h4" color="textSecondary" className={classes.heading}>
-        Trade Crypto Currencies
-      </Typography>
-      {showBuyForm ? 
-        <Buy coinSymbol={coinSymbol} /> : <></>        
-      }
-      <Table aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="left"  color="textSecondary" className={classes.th}>Symbol</TableCell>
-            <TableCell className={classes.th}>Name&nbsp;</TableCell>
-            <TableCell align="right" className={classes.th}>Price &nbsp;</TableCell>
-            <TableCell align="right" className={classes.th}>Action&nbsp;</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {coins.map((coin) => (
-            <TableRow key={coin.symbol}>
-              <TableCell className={classes.td}>{coin.symbol}</TableCell>
-              <TableCell className={classes.td}>{coin.name}</TableCell>
-              <TableCell  className={classes.td} align="right">${coin.price.toLocaleString('en-US',{minimumFractionDigits: 2, maximumFractionDigits: 2})}</TableCell>
-              <TableCell className={classes.td} align="right">
-              <ButtonGroup>
-                <Button variant="contained" color="primary"
-                  // href={`/trade/buy/${coin}/$`}
-                  className={classes.btn}
-                  // to={{data: {symbol:coin.symbol, name:coin.name, price:coin.price}}}
-                  onClick={() => handleClick(coin)}
-                  // component={Link}
-                  // to="/trade/buy"
-                >
-                  Buy
-                </Button>
-                {/* <Link variant="outlined" color="primary"
-                  className={classes.btn} 
-                  component="button"
-                  href="/trade/buy"
-                  to={{pathname: "/trade/buy",
-                      data: coin
-                  }}
-                  // onClick={handleClickOpen}
-                >
-                  Buy
-                </Link> */}
-                <Button fullWidth="true" variant="contained"
-                //  href="/trade/sell"
-                 >
-                  Sell
-                </Button> 
-              </ButtonGroup>
-              </TableCell>
+    <Grid container fluid spacing={2} className={classes.table} >
+      <Grid item xs={9}>
+        <Typography variant="h4" color="textSecondary" className={classes.heading}>
+          Trade Crypto Currencies
+        </Typography>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left"  color="textSecondary" className={classes.th}>Symbol</TableCell>
+              <TableCell className={classes.th}>Name&nbsp;</TableCell>
+              <TableCell align="right" className={classes.th}>Price &nbsp;</TableCell>
+              <TableCell align="right" className={classes.th}>Action&nbsp;</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {coins.map((coin) => (
+              <TableRow key={coin.symbol}>
+                <TableCell className={classes.td}>{coin.symbol}</TableCell>
+                <TableCell className={classes.td}>{coin.name}</TableCell>
+                <TableCell  className={classes.td} align="right">${coin.price.toLocaleString('en-US',{minimumFractionDigits: 2, maximumFractionDigits: 2})}</TableCell>
+                <TableCell className={classes.td} align="right">
+                <ButtonGroup>
+                  <Button variant="contained" color="primary"
+                    // href={`/trade/buy/${coin}/$`}
+                    className={classes.btn}
+                    // to={{data: {symbol:coin.symbol, name:coin.name, price:coin.price}}}
+                    onClick={() => handleClick(coin)}
+                    // component={Link}
+                    // to="/trade/buy"
+                  >
+                    Buy
+                  </Button>
+                  {/* <Link variant="outlined" color="primary"
+                    className={classes.btn} 
+                    component="button"
+                    href="/trade/buy"
+                    to={{pathname: "/trade/buy",
+                        data: coin
+                    }}
+                    // onClick={handleClickOpen}
+                  >
+                    Buy
+                  </Link> */}
+                  <Button fullWidth="true" variant="contained"
+                  //  href="/trade/sell"
+                  >
+                    Sell
+                  </Button> 
+                </ButtonGroup>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Grid>
+      <Grid item xs={3}>
+        {showBuyForm ? 
+          <Buy coinSymbol={coinSymbol} coinItem={coinItem} /> : <></>        
+        }
+      </Grid>
+    </Grid>
   );
 }
 

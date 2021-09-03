@@ -21,32 +21,31 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     checkout: async (parent, args, context) => {
-      for (let i = 0; i < coins.length; i++) {
-        const coin = await stripe.coins.create({
-          name: coins[i].name,
-          description: coins[i].description,
-          images: [`${url}/images/${coins[i].image}`]
+        const line_items = [];
+        const coin = await stripe.coin.create({
+          name: coin.name,
+          description: coin.symbol,
+          //images: [`${url}/images/${coins[i].image}`]
         });
 
-        const price = await stripe.prices.create({
+        const price = await stripe.price.create({
           coin: coin.id,
-          unit_amount: coins[i].price * 100,
+          unit_amount: coin.price * 100,
           currency: 'usd',
         });
 
         line_items.push({
-          price: price.id,
+          price: price,
           quantity: 1
         });
-      }
 
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`
-      });
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          line_items,
+          mode: 'payment',
+          success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${url}/`
+        });
 
       return { session: session.id };
     }

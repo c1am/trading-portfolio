@@ -24,7 +24,8 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minlength: 5
-  }
+  },
+  coins: [Coin.schema]
 });
 
 // set up pre-save middleware to create password

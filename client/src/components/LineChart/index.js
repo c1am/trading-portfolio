@@ -12,11 +12,15 @@ export default class LineChart extends Component {
 
   render() {
       if(this.props.name  !== undefined){
+
+        let portfolioData = [];
         getHistory((this.props.name).toLowerCase().replace(/\s/g,''))
         .then((data) => {
             console.log(this.props.name);
             console.log(data);
+            portfolioData.push(data);
         });
+        console.log(portfolioData[0]);
         const options = {style: 'currency', currency: 'USD'};
         const numberFormat = new Intl.NumberFormat('en-US', options);
         const configPrice = {

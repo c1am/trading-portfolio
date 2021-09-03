@@ -1,10 +1,12 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_COINS = gql`
-  {
+  query coins {
     coins {
-      _id
       name
+      price
+      symbol
+      qty
     }
   }
 `;
@@ -16,9 +18,6 @@ export const QUERY_USER = gql`
            firstName
            lastName
            email
-           coins {
-              name
-           }
         }
     }
 `;

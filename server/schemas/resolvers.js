@@ -29,8 +29,8 @@ const resolvers = {
         });
 
         const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
+          coin: coin.id,
+          unit_amount: coins[i].price * 100,
           currency: 'usd',
         });
 
@@ -99,10 +99,10 @@ const resolvers = {
 
       return { token, user };
     },
-    updateProduct: async (parent, { _id, quantity }) => {
+    updateCoins: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
 
-      return await coin.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
+      return await coins.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     }
   }
 };

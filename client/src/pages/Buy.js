@@ -3,8 +3,7 @@ import { useMutation } from '@apollo/client';
 import { BUY_COINS } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { today } from '../utils/helpers'
-import { useLazyQuery } from '@apollo/client';
-import { QUERY_CHECKOUT } from '../utils/queries';
+
 
 import { makeStyles } from '@material-ui/core/styles';
 import { FormControl, Input, InputLabel, Button, Typography, ButtonGroup } from '@material-ui/core';
@@ -13,7 +12,7 @@ function Buy(props) {
   console.log("Buy");
 
   const user = Auth.getProfile().data._id;
-  console.log(user);
+  //console.log(user);
   const [buyCoins, { error }] = useMutation(BUY_COINS);
   const [formState, setFormState] = useState({ 
     symbol: props.coinItem.symbol,
@@ -28,7 +27,7 @@ function Buy(props) {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log(formState);
+      //console.log(formState);
       await buyCoins({
         variables: { 
           symbol: formState.symbol, 
@@ -55,18 +54,18 @@ function Buy(props) {
     console.log(formState);
   };
 
-  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const handlePurchase = async (event) => {
-    await getCheckout({
-      variables: { 
-        symbol: formState.symbol, 
-        name: formState.name, 
-        price: formState.price,
-        qty: parseInt(formState.qty),
-        date: new Date(),
-        user: user }
-    });
-  }
+  // const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  // const handlePurchase = async (event) => {
+  //   await getCheckout({
+  //     variables: { 
+  //       symbol: formState.symbol, 
+  //       name: formState.name, 
+  //       price: formState.price,
+  //       qty: parseInt(formState.qty),
+  //       date: new Date(),
+  //       user: user }
+  //   });
+  // }
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -126,7 +125,6 @@ function Buy(props) {
         <Button variant="contained" color="primary"
           type="submit"
           className={classes.btn}
-          onClick={() => handlePurchase()}
         >
           Buy
         </Button>

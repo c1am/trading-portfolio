@@ -2,7 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const { response } = require('express');
 const { User, Coin } = require('../models');
 const { signToken } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const stripe = require('stripe')('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const resolvers = {
   Query: {
@@ -21,6 +21,7 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
     checkout: async (parent, args, context) => {
+      console.log("checkout resolver");
         const line_items = [];
         const coin = await stripe.coin.create({
           name: coin.name,

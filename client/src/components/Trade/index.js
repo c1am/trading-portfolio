@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup, Link, Grid } from '@material-ui/core';
 // import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
 
+import { useLazyQuery } from '@apollo/client';
+import { QUERY_CHECKOUT } from '../../utils/queries';
+
 import { idbPromise } from '../../utils/helpers'
 import Buy from '../../pages/Buy'
 
@@ -80,9 +83,20 @@ function BuySell(props) {
     setCoinSymbol(coin.symbol);
     setCoinName(coin.name);
     setCoinPrice(coin.price);
-    setCoinPrice(coin.price);
     setCoinItem(coin);
+    handlePurchase();
   };
+
+  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const handlePurchase = async (event) => {
+    console.log("getCheckout");
+    getCheckout({
+      variables: { 
+        symbol: coinSymbol, 
+        name: coinName, 
+        price: coinPrice }
+    });
+  }
 
   // const handleClose = () => {
   //   setOpen(false);

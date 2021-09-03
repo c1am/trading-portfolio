@@ -24,9 +24,14 @@ const typeDefs = gql`
     user: User
   }
 
+  type Checkout {
+    session: ID
+  }
+
   type Query {
     user: User
     coins: Coin
+    checkout(coins: [ID]!): Checkout
   }
 
   type Mutation {
@@ -34,6 +39,7 @@ const typeDefs = gql`
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     login(email: String!, password: String!): Auth
     buyCoins(symbol: String, name: String, price: Float, qty: Int, date: Date, user: ID): Coin
+    updateCoins(_id: ID!, quantity: Int!): Coin
   }
 `;
 

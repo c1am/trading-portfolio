@@ -18,7 +18,6 @@ import Signup from './pages/Signup';
 import Nav from './components/Nav';
 import Portfolio from './pages/Portfolio';
 import Trade from './components/Trade';
-import Buy from './pages/Buy';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -52,7 +51,6 @@ function App() {
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/portfolio" component={Portfolio} />
               <Route exact path="/trade" component={Trade} />
-              <Route exact path="/trade/buy" component={Buy} />
               <Route component={NoMatch} />
             </Switch>
           </Provider>

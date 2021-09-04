@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Button, ButtonGroup, Link, Grid } from '@material-ui/core';
-// import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
+import { Table, TableBody, TableHead, TableCell, TableRow, Typography, Button, ButtonGroup, Grid } from '@material-ui/core';
 
-import { idbPromise } from '../../utils/helpers'
-import Buy from '../../pages/Buy'
+import { idbPromise } from '../../utils/helpers';
 
-function BuySell(props) {
+import Buy from '../../pages/Buy';
+import Snapshot from './snapshot';
+
+function Trade(props) {
   const [coins, setCoins] = useState([]);
   const [fetchData, setFetchData] = useState(false);
 
-  const [coinSymbol, setCoinSymbol] = useState('');
-  const [coinName, setCoinName] = useState('');
-  const [coinPrice, setCoinPrice] = useState(0);
   const [showBuyForm, setShowBuyForm] = useState(false);
   const [coinItem, setCoinItem] = useState('');
 
@@ -35,6 +33,12 @@ function BuySell(props) {
   coins.sort((a, b) => (a.price < b.price) ? 1 : -1);
   console.log(coins);
 
+
+  function handleClick(coin) {
+    setShowBuyForm(state => true);
+    setCoinItem(coin);
+  };
+
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {      
@@ -44,10 +48,13 @@ function BuySell(props) {
         flexGrow: 1,
       },
     },
+    grid: {
+      maxWidth: 1500
+    },
     table: {
       minWidth: 650,
-      maxWidth: 900,
-      marginLeft: 150
+      maxWidth: 850,
+      marginLeft: 50
     },
     heading: {
       fontFamily: 'Helvetica',
@@ -58,49 +65,33 @@ function BuySell(props) {
       marginBottom: '50px'
     },
     th: {
-      fontSize: '1.5rem',
+      fontSize: '1rem',
       fontFamily: 'Helvetica',
       fontWeight: 'bold',
       color: '#00796b'
     },
     td: {
-      fontSize: '1.25rem',
-      verticalAlign: 'top'
-    },
-    btn: {
-      marginRight: '15px'
+      fontSize: '1rem',
+      verticalAlign: 'top',
+      color: '#60796b'
     }
   }));
 
   const classes = useStyles();
 
-  function handleClick(coin) {
-    // console.log(event.target.parentElement.parentElement);
-    setShowBuyForm(state => !state);
-    setCoinSymbol(coin.symbol);
-    setCoinName(coin.name);
-    setCoinPrice(coin.price);
-    setCoinPrice(coin.price);
-    setCoinItem(coin);
-  };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
   return (
-    <Grid container fluid spacing={2} className={classes.table} >
-      <Grid item xs={9}>
+    <Grid container fluid spacing={4} className={classes.grid} >
+      <Grid item sm={7}>
         <Typography variant="h4" color="textSecondary" className={classes.heading}>
           Trade Crypto Currencies
         </Typography>
-        <Table aria-label="simple table">
+        <Table aria-label="simple table" className={classes.table}>
           <TableHead>
             <TableRow>
               <TableCell align="left"  color="textSecondary" className={classes.th}>Symbol</TableCell>
               <TableCell className={classes.th}>Name&nbsp;</TableCell>
               <TableCell align="right" className={classes.th}>Price &nbsp;</TableCell>
-              <TableCell align="right" className={classes.th}>Action&nbsp;</TableCell>
+              <TableCell align="center" className={classes.th}>Action&nbsp;</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -109,48 +100,24 @@ function BuySell(props) {
                 <TableCell className={classes.td}>{coin.symbol}</TableCell>
                 <TableCell className={classes.td}>{coin.name}</TableCell>
                 <TableCell  className={classes.td} align="right">${coin.price.toLocaleString('en-US',{minimumFractionDigits: 2, maximumFractionDigits: 2})}</TableCell>
-                <TableCell className={classes.td} align="right">
-                <ButtonGroup>
-                  <Button variant="contained" color="primary"
-                    // href={`/trade/buy/${coin}/$`}
-                    className={classes.btn}
-                    // to={{data: {symbol:coin.symbol, name:coin.name, price:coin.price}}}
-                    onClick={() => handleClick(coin)}
-                    // component={Link}
-                    // to="/trade/buy"
-                  >
+                <TableCell className={classes.td} align="center">
+                  <Button variant="contained" color="primary" onClick={() => handleClick(coin)}>
                     Buy
                   </Button>
-                  {/* <Link variant="outlined" color="primary"
-                    className={classes.btn} 
-                    component="button"
-                    href="/trade/buy"
-                    to={{pathname: "/trade/buy",
-                        data: coin
-                    }}
-                    // onClick={handleClickOpen}
-                  >
-                    Buy
-                  </Link> */}
-                  <Button fullWidth="true" variant="contained"
-                  //  href="/trade/sell"
-                  >
-                    Sell
-                  </Button> 
-                </ButtonGroup>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item sm={5}>
+          <Snapshot coins={coins}/>        
         {showBuyForm ? 
-          <Buy coinSymbol={coinSymbol} coinItem={coinItem} /> : <></>        
+          <Buy coinItem={coinItem} /> : <></>        
         }
       </Grid>
     </Grid>
   );
 }
 
-export default BuySell;
+export default Trade;

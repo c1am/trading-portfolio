@@ -69,15 +69,8 @@ const resolvers = {
         date: date,
         user: user
       };
-      // coin.save(function (err, data) {
-      //   if (err) return console.error(err);
-      //   console.log(data.name + " saved to coins collection.");
-      // });
-      // console.log({coin});
       try {
-        response = await Coin.create(coin);
-        console.log(response);
-        return response;
+        return await Coin.create(coin);
       } catch (error) {
         console.log(error);
       }

@@ -14,37 +14,9 @@ const Portfolio = () => {
     const { data:coin_data, error: coin_error, loading: coin_loading } = useQuery(QUERY_COINS);
 
     const userData = user_data?.user || {};
-    const coins = coin_data?.coins || [];
-
-    // summarize
-    var coinData = [];
-    coins.map((coin) => {
-      var index = coinData.map((e) => {return e.name}).indexOf(coin.name);
-      if (index === -1) {
-        var item = {
-          symbol: coin.symbol,
-          name: coin.name,
-          qty: coin.qty,
-          price: coin.price,
-
-        };    
-        coinData.push(item);
-      }
-      else {
-        var qty = coinData[index].qty + coin.qty;
-        var price = coinData[index].price + coin.qty * coin.price;
-        coinData[index] = {
-          symbol: coinData[index].symbol,
-          name: coinData[index].name,
-          qty: qty,
-          price: price,
-        };
-      }
-    });
-
-    // const coinData = coin_data?.coins || [];
+    const coinData = coin_data?.coins || [];
     console.log(userData);
-    coinData.map((coin) => console.log(coin));
+    coinData.map((coin) => console.log(coin.name));
 
 
     const renderPieChart = () => {

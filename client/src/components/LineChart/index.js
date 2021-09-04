@@ -77,6 +77,7 @@ export default class LineChart extends Component {
           },
           chart: {
             height: 600,
+            width: 1200
           },
       
           credits: {
@@ -111,7 +112,7 @@ export default class LineChart extends Component {
               type: 'all',
               text: 'All'
             }],
-            selected: 1
+            selected: 0
           },
           series: [{
             name: 'Price',
@@ -126,7 +127,7 @@ export default class LineChart extends Component {
           ]
         };
         return (
-          <div>
+          <div align="center">
              <ReactHighcharts config = {configPrice}></ReactHighcharts>
           </div>
         )

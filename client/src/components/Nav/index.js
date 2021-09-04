@@ -55,7 +55,7 @@ function Nav() {
           <TrendingUpIcon className={classes.title} />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          <Link color="inherit" href="/">Trading Portfolio</Link>
+          <Link color="inherit" href="/">Trade Coin</Link>
         </Typography>
         <nav>{showNavigation()}</nav>
       </Toolbar>

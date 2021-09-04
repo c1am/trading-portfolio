@@ -5,11 +5,16 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typog
 
 // import { useDispatch, useSelector } from 'react-redux'
 // import { UPDATE_COIN } from '../../utils/mutations';
-import { idbPromise } from '../../utils/helpers'
+import { idbPromise } from '../../utils/helpers';
+import Auth from '../../utils/auth';
+import Trade from '../../components/Trade';
+import Login from '../../pages/Login';
+
 
 function Coins() {
   const [coins, setCoins] = useState([]);
   const [fetchData, setFetchData] = useState(false);
+  const [loggedIn, setlLoggedIn] = useState(false);
 
   getPrice()
     .then((data) => { 
@@ -41,6 +46,17 @@ function Coins() {
     });
   })
 
+  function handleClick() {
+    console.log("hello");
+    if (Auth.loggedIn()) {
+      window.location.href="/trade";
+    }
+    else {
+      window.location.href="/login";
+    }
+  }
+
+
   const useStyles = makeStyles((theme) => ({
     root: {
       '& > *': {      
@@ -68,10 +84,8 @@ function Coins() {
     },
     td: {
       fontSize: '1.25rem',
-      verticalAlign: 'top'
-    },
-    btnElement: {
-      width: 300,
+      verticalAlign: 'top',
+      color: '#60796b'
     }
   }));
 
@@ -101,13 +115,10 @@ function Coins() {
               <TableCell className={classes.td}><a href={coin.coinUrl} target="_blank"><img src={"https://www.coingecko.com/coins/" + coin.itemNo + "/sparkline"} srcSet={"https://www.coingecko.com/coins/" + coin.graphNo + "/sparkline 1x"} /></a></TableCell>
               <TableCell className={classes.td}>
               <ButtonGroup>
-                <Button variant="contained" color="primary"
-                  href="/profile/sell"
-                  className={classes.btn}
-                >
+                <Button variant="contained" color="primary" onClick={handleClick}>
                   Buy
                 </Button>
-                <Button fullWidth="true" variant="contained" href="/profile/buy">
+                <Button fullWidth="true" variant="contained" onClick={handleClick}>
                   Sell
                 </Button> 
               </ButtonGroup>

@@ -15,14 +15,14 @@ SSH Clone Link: `git@github.com:c1am/trading-portfolio.git`
 
 
 ## Application Links
-- [Repository]("https://github.com/c1am/trading-portfolio")
-- [Deployed Application]("https://trade-coin.herokuapp.com")
+- [Repository](https://github.com/c1am/trading-portfolio)
+- [Deployed Application](https://trade-coin.herokuapp.com)
 
 
 ## Developers
-* [Alex Ortiz]("https://github.com/OrtizAlex")
-* [Cherry Lam]("https://github.com/c1am")
-* [Manzur Shaheed]("https://github.com/manzur-shaheed")
+* [Alex Ortiz](https://github.com/OrtizAlex)
+* [Cherry Lam](https://github.com/c1am)
+* [Manzur Shaheed](https://github.com/manzur-shaheed)
 
 
 ## Acknowledgments
